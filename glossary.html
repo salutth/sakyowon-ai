@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>용어정리 — RiverWatch</title>
+  <style>
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css');
+
+    :root {
+      --bg: #f6f7fb; --bg-card: rgba(255,255,255,0.85);
+      --text: #1a1a2e; --text-sub: #5a5a7a; --text-muted: #8888a0;
+      --accent: #5b4cf0; --accent-light: #7b6ff5;
+      --border: rgba(0,0,0,0.06);
+      --card-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03);
+      --nav-bg: rgba(255,255,255,0.72); --nav-border: rgba(0,0,0,0.06);
+      --footer-bg: #f0f0f5;
+      --badge-bg: #eef; --badge-text: #5b4cf0;
+      --term-bg: rgba(91,76,240,0.04);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #0c0c14; --bg-card: rgba(22,22,36,0.8);
+        --text: #e8e8f0; --text-sub: #a0a0b8; --text-muted: #666680;
+        --accent: #7b6ff5; --accent-light: #9b92ff;
+        --border: rgba(255,255,255,0.06);
+        --card-shadow: 0 1px 3px rgba(0,0,0,0.2), 0 4px 12px rgba(0,0,0,0.15);
+        --nav-bg: rgba(16,16,28,0.82); --nav-border: rgba(255,255,255,0.06);
+        --footer-bg: #0e0e18;
+        --badge-bg: rgba(91,76,240,0.15); --badge-text: #9b92ff;
+        --term-bg: rgba(91,76,240,0.08);
+      }
+    }
+    :root[data-theme="dark"] {
+      --bg: #0c0c14; --bg-card: rgba(22,22,36,0.8);
+      --text: #e8e8f0; --text-sub: #a0a0b8; --text-muted: #666680;
+      --accent: #7b6ff5; --accent-light: #9b92ff;
+      --border: rgba(255,255,255,0.06);
+      --card-shadow: 0 1px 3px rgba(0,0,0,0.2), 0 4px 12px rgba(0,0,0,0.15);
+      --nav-bg: rgba(16,16,28,0.82); --nav-border: rgba(255,255,255,0.06);
+      --footer-bg: #0e0e18;
+      --badge-bg: rgba(91,76,240,0.15); --badge-text: #9b92ff;
+      --term-bg: rgba(91,76,240,0.08);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Pretendard', -apple-system, sans-serif;
+      background: var(--bg); color: var(--text);
+      min-height: 100vh; -webkit-font-smoothing: antialiased;
+    }
+
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.65rem 1.5rem;
+      background: var(--nav-bg);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--nav-border);
+    }
+    .nav-brand { display: flex; align-items: center; gap: 0.5rem; font-weight: 700; font-size: 1.1rem; color: var(--text); text-decoration: none; }
+    .nav-brand span { color: var(--accent); }
+    .nav-back { padding: 0.35rem 0.7rem; border-radius: 8px; font-size: 0.8rem; color: var(--text-sub); text-decoration: none; transition: all 0.15s; }
+    .nav-back:hover { background: rgba(91,76,240,0.1); color: var(--accent); }
+
+    .container { max-width: 880px; margin: 0 auto; padding: 0 1.25rem 3rem; }
+
+    /* HEADER */
+    .page-header {
+      padding: 3rem 1.5rem 2rem; text-align: center;
+    }
+    .page-header h1 { font-size: clamp(1.4rem, 4vw, 2rem); font-weight: 800; margin-bottom: 0.5rem; }
+    .page-header .sub { font-size: 0.82rem; color: var(--text-sub); line-height: 1.6; max-width: 600px; margin: 0 auto 1rem; }
+    .source {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-size: 0.7rem; color: var(--badge-text); background: var(--badge-bg);
+      padding: 0.3rem 0.8rem; border-radius: 8px; font-weight: 600;
+    }
+
+    /* TOC */
+    .toc {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem;
+      margin: 1.5rem auto 2rem; max-width: 700px;
+    }
+    .toc a {
+      padding: 0.4rem 0.9rem; border-radius: 10px; font-size: 0.78rem; font-weight: 600;
+      color: var(--text-sub); background: var(--bg-card); border: 1px solid var(--border);
+      text-decoration: none; transition: all 0.15s;
+    }
+    .toc a:hover, .toc a:focus { color: var(--accent); border-color: var(--accent); }
+
+    /* SECTION */
+    .section { margin-top: 2.5rem; }
+    .section-head {
+      display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;
+      position: sticky; top: 48px; z-index: 10;
+      background: var(--bg); padding: 0.6rem 0;
+    }
+    .section-tag { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent); white-space: nowrap; }
+    .section-line { flex: 1; height: 1px; background: var(--border); }
+
+    /* TERM CARD */
+    .term {
+      padding: 1rem 1.2rem; margin-bottom: 0.6rem;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 14px; box-shadow: var(--card-shadow);
+    }
+    .term-name { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.1rem; }
+    .term-en { font-size: 0.7rem; color: var(--accent); font-weight: 600; margin-bottom: 0.4rem; }
+    .term-desc { font-size: 0.82rem; color: var(--text-sub); line-height: 1.7; }
+
+    /* FORMULA */
+    .formula {
+      padding: 1rem 1.2rem; margin-bottom: 0.6rem;
+      background: var(--term-bg); border: 1px solid var(--border);
+      border-radius: 14px;
+    }
+    .formula-title { font-size: 0.88rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .formula-expr {
+      font-family: 'Courier New', monospace; font-size: 0.8rem;
+      padding: 0.5rem 0.8rem; background: var(--bg-card);
+      border-radius: 8px; margin-bottom: 0.5rem;
+      overflow-x: auto; border: 1px solid var(--border);
+    }
+    .formula ul { list-style: none; padding: 0; }
+    .formula li {
+      font-size: 0.78rem; color: var(--text-sub); line-height: 1.7;
+      padding-left: 1rem; position: relative;
+    }
+    .formula li::before { content: '·'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+    .formula li strong { color: var(--text); }
+
+    .note {
+      margin-top: 2rem; padding: 1rem 1.2rem;
+      font-size: 0.75rem; color: var(--text-muted); line-height: 1.6;
+      border-top: 1px solid var(--border);
+    }
+
+    footer {
+      background: var(--footer-bg); text-align: center; padding: 2rem 1rem;
+      font-size: 0.72rem; color: var(--text-muted); border-top: 1px solid var(--border);
+    }
+    .source-block {
+      max-width: 700px; margin: 0 auto 1.5rem; padding: 1.2rem;
+      background: var(--badge-bg); border-radius: 12px; text-align: left;
+    }
+    .source-label { font-size: 0.78rem; font-weight: 700; color: var(--badge-text); margin-bottom: 0.4rem; }
+    .source-text { font-size: 0.78rem; color: var(--text-sub); line-height: 1.6; margin-bottom: 0.5rem; }
+    .source-note { font-size: 0.7rem; color: var(--text-muted); line-height: 1.5; font-style: italic; }
+
+    @media (max-width: 640px) {
+      .page-header { padding: 2rem 1rem 1.5rem; }
+      .section-head { top: 44px; }
+    }
+  </style>
+</head>
+<body>
+<script src="gate.js"></script>
+
+<nav>
+  <a class="nav-brand" href="/">🌊 River<span>Watch</span></a>
+  <a class="nav-back" href="/">← 홈으로</a>
+</nav>
+
+<div class="page-header">
+  <h1>용어정리</h1>
+  <p class="sub">중소하천 내 불필요한 보 철거에 따른 물 환원량, 홍수위, 침수 범람, 수질 및 하상변동 영향 분석 연구에서 사용된 전문용어를 일반 독자가 쉽게 이해할 수 있도록 정리하였습니다.</p>
+</div>
+
+<div class="container">
+
+  <div class="toc">
+    <a href="#sec1">정책 및 평가체계</a>
+    <a href="#sec2">하천 및 수리</a>
+    <a href="#sec3">수질</a>
+    <a href="#sec4">온실가스</a>
+    <a href="#sec5">하천 정비·관리</a>
+    <a href="#sec6">수식 기호</a>
+  </div>
+
+  <!-- 1. 정책 및 평가체계 -->
+  <div class="section" id="sec1">
+    <div class="section-head">
+      <span class="section-tag">1. 정책 및 평가체계 관련 용어</span>
+      <span class="section-line"></span>
+    </div>
+
+    <div class="term">
+      <div class="term-name">국가온실가스감축목표</div>
+      <div class="term-en">Nationally Determined Contribution, NDC</div>
+      <div class="term-desc">각 나라가 유엔에 제출하는 온실가스 감축 계획으로, 특정 연도까지 자국의 온실가스 배출량을 얼마나 줄이겠다는 목표치를 담고 있다. 우리나라도 2035년 등 특정 시점의 감축 목표를 설정해 두고 있으며, 보 철거로 인한 온실가스 감축 효과를 이 국가 목표와 연계할 수 있다.</div>
+    </div>
+
+    <div class="term">
+      <div class="term-name">'더많은자연'</div>
+      <div class="term-en">Nature Positive</div>
+      <div class="term-desc">현재 시점을 기준으로 자연이 더 이상 훼손되지 않도록 막는 데서 그치지 않고, 앞으로 자연을 지금보다 더 풍부하고 건강하게 회복시키겠다는 국제적 목표를 뜻한다. 생물다양성 손실을 멈추고 되돌린다는 의미로, 기후변화 대응의 '탄소중립'에 대응하는 자연 분야의 목표로 이해할 수 있다.</div>
+    </div>
+
+    <div class="term">
+      <div class="term-name">자연기반해법</div>
+      <div class="term-en">Nature-based Solutions, NbS</div>
+      <div class="term-desc">홍수, 가뭄, 수질 오염 등 사회적 문제를 콘크리트 구조물 같은 인공적 시설이 아니라, 습지·숲·하천처럼 자연이 본래 가진 기능을 되살리거나 활용해 해결하는 접근 방식이다. '보 철거를 통한 하천 자연성 회복'이 대표적인 자연기반해법 사례에 해당한다.</div>
+    </div>
+
+    <div class="term">
+      <div class="term-name">지속가능발전목표</div>
+      <div class="term-en">Sustainable Development Goals, SDGs</div>
+      <div class="term-desc">2015년 유엔이 채택한 인류 공동의 발전 목표로, 빈곤 종식부터 기후변화 대응까지 17개 분야로 구성되어 있다. 이 중 6번 목표가 '물과 위생'에 관한 것으로, 하천 복원과 같은 물 관리 활동의 성과를 국제적으로 비교·보고하는 기준으로 활용된다.</div>
+    </div>
+
+    <div class="term">
+      <div class="term-name">체적 기반 물 편익(VWB)과 VWBA</div>
+      <div class="term-en">Volumetric Water Benefit / Volumetric Water Benefit Accounting</div>
+      <div class="term-desc">VWB는 어떤 물 관리 활동(예: 보 철거)으로 인해 실제로 개선된 물의 양이나 흐름의 정도를 부피(체적) 단위로 나타낸 값이다. VWBA는 이 값을 계산하고 보고하기 위한 국제 표준 방법론으로, 세계자원연구소(WRI)가 제안하였다. 서로 다른 종류의 물 관리 활동이라도 같은 단위(㎥)로 환산해 비교할 수 있게 해 준다.</div>
+    </div>
+
+    <div class="term">
+      <div class="term-name">쿤밍-몬트리올 글로벌 생물다양성 프레임워크</div>
+      <div class="term-en">Kunming-Montreal Global Biodiversity Framework, GBF</div>
+      <div class="term-desc">2022년 국제사회가 채택한 생물다양성 보전 합의로, 2030년까지 전 세계 육상·담수·해양 생태계의 최소 30%를 보호하고, 이미 훼손된 생태계의 최소 30%를 복원하는 것을 핵심 목표로 한다. 하천과 같은 담수 생태계의 복원도 이 목표에 포함된다.</div>
+    </div>
+
+    <div class="term">
+      <div class="term-name">워터 포지티브</div>
+      <div class="term-en">Water Positive</div>
+      <div class="term-desc">'더많은자연' 개념을 물 분야에 적용한 것이다. 어떤 조직이나 사업이 물을 사용하면서 끼친 부정적 영향보다 더 많은 물 편익을 자연과 지역사회에 되돌려 준다는 뜻이다. 즉, 쓴 물의 양을 단순히 상쇄하는 수준을 넘어, 유역 전체의 물 문제 해결에 실질적으로 기여하는 상태를 목표로 한다.</div>
+    </div>
+  </div>
+
+  <!-- 2. 하천 및 수리 -->
+  <div class="section" id="sec2">
+    <div class="section-head">
+      <span class="section-tag">2. 하천 및 수리(水理) 관련 용어</span>
+      <span class="section-line"></span>
+    </div>
+
+    <div class="term">
+      <div class="term-name">계획홍수량과 계획홍수위</div>
+      <div class="term-en">Design Flood Discharge / Design Flood Level</div>
+      <div class="term-desc">하천 정비 계획을 세울 때 기준으로 삼는 특정 확률의 홍수 규모(계획홍수량)와, 그 홍수가 발생했을 때 예상되는 수위(계획홍수위)를 말한다. 제방의 높이나 보강 필요 여부를 판단하는 기준값으로 쓰인다.</div>
+    </div>
+
+    <div class="term">
+      <div class="term-name">배수위 효과</div>
+      <div class="term-en">Backwater Effect</div>
+      <div class="term-desc">보와 같은 구조물이 하천의 흐름을 막아, 그 상류 쪽 물의 높이(수위)를 원래보다 높이는 현상이다. 평상시에는 큰 문제가 없어 보여도, 집중호우 시에는 하수관의 물이 하천으로 잘 빠지지 못하게 만들어 도심 침수의 원인이 될 수 있다.</div>
+    </div>
+
+    <div class="term">
+      <div class="term-name">보</div>
+      <div class="term-en">Weir</div>
+      <div class="term-desc">하천을 가로질러 설치하여 물을 가두거나 수위를 일정하게 유지하는 낮은 둑 형태의 구조물이다. 주로 농업용수 취수나 경관 조성을 위해 만들어졌으나, 취수 등 본래 목적을 다한 뒤에도 철거되지 않은 채 방치된 보가 전국적으로 많다.</div>
+    </div>
+
+    <div class="term">
+      <div class="term-name">수문곡선</div>
+      <div class="term-en">Hydrograph</div>
+      <div class="term-desc">하천의 한 지점을 시간에 따라 흐르는 유량의 변화를 그래프로 나타낸 것이다. 가로축을 시간, 세로축을 유량으로 그려, 시간에 따른 유량의 변동을 파악할 수 있다.</div>
+    </div>
+
+    <div class="term">
+      <div class="term-name">여유고</div>
+      <div class="term-en">Freeboard</div>
+      <div class="term-desc">계획홍수위보다 제방을 얼마나 더 높게 쌓아 두어야 하는지를 나타내는 안전 여유분이다. '여유고가 부족하다'는 것은 예상되는 최고 수위보다 제방이 충분히 높지 않아 월류(넘침) 위험이 있다는 뜻이며, 이 경우 제방을 더 쌓는 공사가 필요해진다.</div>
+    </div>
+
+    <div class="term">
+      <div class="term-name">유량</div>
+      <div class="term-en">Discharge</div>
+      <div class="term-desc">일정한 시간 동안 하천의 한 지점(단면)을 통과하는 물의 양을 말하며, 보통 초당 세제곱미터(㎥/s) 단위로 나타낸다. 하천에 '물이 얼마나 흐르고 있는지'를 나타내는 가장 기본적인 지표이다.</div>
+    </div>
+
+    <div class="term">
+      <div class="term-name">유하</div>
+      <div class="term-en">流下</div>
+      <div class="term-desc">물이 하천을 따라 상류에서 하류로 흘러 내려가는 것을 뜻하는 한자어이다. '유하시간'이란 물이 한 지점에서 다른 지점까지 흘러 내려가는 데 걸리는 시간(= 이동 거리 ÷ 평균 유속)을 말한다.</div>
+    </div>
+
+    <div class="term">
+      <div class="term-name">유황</div>
+      <div class="term-en">Flow Regime</div>
+      <div class="term-desc">하천에 흐르는 물의 양(유량)이 시간에 따라 어떻게 달라지는지를 크기·빈도·지속 시간·발생 시기·변동성 등 여러 측면에서 종합적으로 나타내는 개념이다. 자연 상태의 하천은 계절과 강우에 따라 유황이 스스로 변화하는데, 보와 같은 구조물은 이 자연스러운 흐름의 패턴을 인위적으로 바꿔 놓는다.</div>
+    </div>
+
+    <div class="term">
+      <div class="term-name">저수기</div>
+      <div class="term-en">Low-flow Period</div>
+      <div class="term-desc">1년 중 하천의 유량이 적은 시기를 말하며, 저수량(Q275)이 나타나는 시기에 해당한다. 우리나라는 주로 봄철(3~5월)이 저수기이며, 물이 적어 오염물질이 잘 희석되지 않기 때문에 한 해 중 수질이 가장 나빠지기 쉬운 시기이기도 하다.</div>
+    </div>
+
+    <div class="term">
+      <div class="term-name">체류시간</div>
+      <div class="term-en">Residence Time / Retention Time</div>
+      <div class="term-desc">물 한 방울이 특정 하천 구간에 머무르는 평균 시간을 뜻한다. 보로 인해 물이 정체되면 체류시간이 길어지는데, 이 시간이 길수록 오염물질이 쌓이고 조류(藻類)가 번식하기 쉬워져 수질이 나빠지는 경향이 있다.</div>
+    </div>
+
+    <div class="term">
+      <div class="term-name">체적</div>
+      <div class="term-en">Volume</div>
+      <div class="term-desc">어떤 공간이나 물체가 차지하는 부피를 뜻하는 일반적인 용어이다(단위: ㎥). 보가 있을 때와 철거했을 때 이 체적이 얼마나 달라지는지를 계산해 '체적 기반 물 편익(VWB)'을 산정하는 데 활용하였다.</div>
+    </div>
+
+    <div class="term">
+      <div class="term-name">취수량</div>
+      <div class="term-en">Water Intake</div>
+      <div class="term-desc">농업용수·생활용수 등 특정 목적을 위해 하천에서 끌어다 쓰는(취수하는) 물의 양을 말한다.</div>
+    </div>
+
+    <div class="term">
+      <div class="term-name">풍수량·평수량·저수량·갈수량</div>
+      <div class="term-en">Q95 · Q185 · Q275 · Q355</div>
+      <div class="term-desc">하루하루의 하천 유량을 1년(365일) 동안 큰 순서대로 나열했을 때, 특정 순번에 해당하는 유량을 기준으로 하천의 물 많고 적음을 나타내는 지표들이다. 예를 들어 '저수량(Q275)'은 1년 중 275일 동안은 이보다 낮아지지 않는 유량, 즉 물이 비교적 적은 시기를 대표하는 값이다.</div>
+    </div>
+
+    <div class="term">
+      <div class="term-name">하안</div>
+      <div class="term-en">Riparian</div>
+      <div class="term-desc">하천과 육지가 맞닿아 있는 물가·둔치 지역을 말한다. 물과 뭍의 특성을 모두 가지고 있어 생물다양성이 특히 풍부한 생태적 전이지대로 알려져 있으며, 보로 인한 수위 변화나 서식지 단절의 영향을 크게 받는 지역이기도 하다.</div>
+    </div>
+
+    <div class="term">
+      <div class="term-name">하천 연결성</div>
+      <div class="term-en">River Connectivity</div>
+      <div class="term-desc">물과 물속 생물, 흙과 모래(토사) 등이 하천의 상류에서 하류까지, 또는 하천 본류와 주변 습지·범람원 사이를 자유롭게 오갈 수 있는 정도를 말한다. 보와 같은 구조물은 이러한 연결성을 물리적으로 끊는 대표적 요인으로 꼽힌다.</div>
+    </div>
+
+    <div class="term">
+      <div class="term-name">HEC-RAS</div>
+      <div class="term-en">Hydrologic Engineering Center's River Analysis System</div>
+      <div class="term-desc">미 육군공병단이 개발한 하천 흐름 해석 프로그램으로, 전 세계적으로 가장 널리 쓰이는 수리 모델링 소프트웨어 중 하나이다. 보가 있을 때와 없을 때의 상황을 각각 모의해 비교하는 데 사용한다.</div>
+    </div>
+  </div>
+
+  <!-- 3. 수질 -->
+  <div class="section" id="sec3">
+    <div class="section-head">
+      <span class="section-tag">3. 수질 관련 용어</span>
+      <span class="section-line"></span>
+    </div>
+
+    <div class="term">
+      <div class="term-name">부영양화</div>
+      <div class="term-en">Eutrophication</div>
+      <div class="term-desc">물속에 영양분(질소, 인 등)이 지나치게 많아져 조류(녹조)가 과도하게 번식하는 현상이다. 물이 고여 체류시간이 길어질수록 부영양화가 일어나기 쉬우며, 이는 수질 악화와 생태계 교란으로 이어진다.</div>
+    </div>
+
+    <div class="term">
+      <div class="term-name">생물화학적산소요구량</div>
+      <div class="term-en">Biochemical Oxygen Demand, BOD</div>
+      <div class="term-desc">물속의 유기물(오염물질)을 미생물이 분해할 때 소모하는 산소의 양을 말한다. 이 값이 높을수록 물이 더 많이 오염되어 있다는 뜻이며, 하천의 수질 상태를 나타내는 대표적인 지표로 쓰인다.</div>
+    </div>
+
+    <div class="term">
+      <div class="term-name">영양염류</div>
+      <div class="term-en">Nutrients</div>
+      <div class="term-desc">질소, 인처럼 식물과 조류(藻類)가 자라는 데 필요한 양분이 되는 물질을 통틀어 이르는 말이다. 보로 인해 물이 정체되면 영양염류가 잘 씻겨 내려가지 못하고 쌓이기 쉬워, 조류 성장에 유리한 환경이 만들어진다.</div>
+    </div>
+
+    <div class="term">
+      <div class="term-name">용존산소</div>
+      <div class="term-en">Dissolved Oxygen, DO</div>
+      <div class="term-desc">물속에 녹아 있는 산소의 양으로, 물고기 등 수생 생물이 숨 쉬는 데 반드시 필요하다. 흐르는 물일수록 공기와 접촉이 활발해 용존산소가 풍부해지고, 물이 고여 있을수록 용존산소가 줄어드는 경향이 있다.</div>
+    </div>
+
+    <div class="term">
+      <div class="term-name">재폭기</div>
+      <div class="term-en">Reaeration</div>
+      <div class="term-desc">물의 표면이 대기와 맞닿으면서 공기 중 산소가 물속으로 녹아 들어가는 현상이다. 물살이 빠르고 수심이 얕을수록 재폭기가 활발해져 용존산소가 늘어난다. 보 철거로 유속이 빨라지고 수심이 낮아지면 재폭기 효과가 커져 수질 개선으로 이어질 수 있다.</div>
+    </div>
+
+    <div class="term">
+      <div class="term-name">탈산소화</div>
+      <div class="term-en">Deoxygenation</div>
+      <div class="term-desc">물속 유기물이 미생물에 의해 분해되면서 산소가 소비되는 과정을 말한다. '탈산소화 계수(k₁)'는 이 과정이 일어나는 속도를 나타내는 값으로, 값이 클수록 산소가 더 빠르게 소모된다는 뜻이다.</div>
+    </div>
+  </div>
+
+  <!-- 4. 온실가스 -->
+  <div class="section" id="sec4">
+    <div class="section-head">
+      <span class="section-tag">4. 온실가스 관련 용어</span>
+      <span class="section-line"></span>
+    </div>
+
+    <div class="term">
+      <div class="term-name">이산화탄소환산량</div>
+      <div class="term-en">CO₂ Equivalent, CO₂eq</div>
+      <div class="term-desc">메탄처럼 이산화탄소가 아닌 다른 온실가스의 배출량(또는 감축량)을, 지구온난화지수를 이용해 '이산화탄소를 배출(또는 감축)했다면 몇 kg에 해당하는가'로 환산한 값이다. 서로 다른 온실가스의 영향을 하나의 공통 단위로 비교할 수 있게 해 준다.</div>
+    </div>
+
+    <div class="term">
+      <div class="term-name">지구온난화지수</div>
+      <div class="term-en">Global Warming Potential, GWP</div>
+      <div class="term-desc">메탄, 이산화탄소 등 여러 온실가스가 일정 기간 지구를 얼마나 데우는지를 이산화탄소를 기준(1)으로 삼아 상대적으로 나타낸 수치이다. 예를 들어 메탄의 100년 기준 GWP는 28로, 같은 양이라면 메탄이 이산화탄소보다 28배 더 강한 온난화 효과를 낸다.</div>
+    </div>
+
+    <div class="term">
+      <div class="term-name">IPCC 온실가스 인벤토리 산정방법</div>
+      <div class="term-en">IPCC Guidelines for National Greenhouse Gas Inventories</div>
+      <div class="term-desc">기후변화에 관한 정부 간 협의체(IPCC)가 각국의 온실가스 배출량 산정을 위해 마련한 국제 표준 계산 방법이다. 하수·유기물 분해 과정에서 발생하는 메탄의 양을 계산하는 데 이 방법을 적용한다.</div>
+    </div>
+  </div>
+
+  <!-- 5. 하천 정비 및 관리 -->
+  <div class="section" id="sec5">
+    <div class="section-head">
+      <span class="section-tag">5. 하천 정비 및 관리 관련 용어</span>
+      <span class="section-line"></span>
+    </div>
+
+    <div class="term">
+      <div class="term-name">기설 제방고</div>
+      <div class="term-en"></div>
+      <div class="term-desc">현재 실제로 설치되어 있는 제방의 높이를 말한다('기설'은 '이미 설치됨'이라는 뜻). 계획홍수위에 여유고를 더한 값과 이 기설 제방고를 비교해, 제방을 더 보강해야 하는지를 판단한다.</div>
+    </div>
+
+    <div class="term">
+      <div class="term-name">낙차공</div>
+      <div class="term-en"></div>
+      <div class="term-desc">하천 바닥의 높이 차이(낙차)를 조절하기 위해 설치하는 구조물로, '보'와 비슷하게 하천을 가로질러 설치되어 물의 흐름과 수위에 영향을 준다.</div>
+    </div>
+
+    <div class="term">
+      <div class="term-name">보축</div>
+      <div class="term-en">補築</div>
+      <div class="term-desc">기존 제방에서 높이나 폭이 부족한 부분을 보강하기 위해 흙이나 구조물을 덧붙여 쌓는 공사를 말한다. 제방을 새로 쌓는 '축제'와 비슷하지만, 이미 있는 제방을 보완·보강한다는 점에서 차이가 있다.</div>
+    </div>
+
+    <div class="term">
+      <div class="term-name">수생태계 연속성 확보사업</div>
+      <div class="term-en"></div>
+      <div class="term-desc">환경부가 추진하는 사업으로, 보나 낙차공처럼 하천의 흐름과 물속 생물의 이동을 가로막는 구조물을 철거·개선해 하천의 상류와 하류가 다시 자연스럽게 이어지도록(연속성을 회복하도록) 하는 사업이다.</div>
+    </div>
+
+    <div class="term">
+      <div class="term-name">수질오염총량관리제</div>
+      <div class="term-en"></div>
+      <div class="term-desc">하천 유역별로 배출할 수 있는 오염물질의 총량에 상한선을 정해두고, 그 범위 안에서 각 지자체·시설이 오염물질 배출량을 나누어 관리하는 제도이다. 목표수질을 맞추기 위해 하수처리장 등에 오염물질 삭감 의무량이 할당된다.</div>
+    </div>
+
+    <div class="term">
+      <div class="term-name">축제</div>
+      <div class="term-en">築堤</div>
+      <div class="term-desc">제방을 새로 쌓아 올리는 공사를 뜻하는 한자어이다. 일상에서 '축제'라고 하면 흔히 행사(祝祭)를 떠올리기 쉽지만, 여기서의 '축제'는 홍수에 대비해 제방을 쌓아 올리는 치수(治水) 공사를 의미한다.</div>
+    </div>
+
+    <div class="term">
+      <div class="term-name">하천기본계획</div>
+      <div class="term-en">River Master Plan</div>
+      <div class="term-desc">하천법에 따라 국가나 지자체가 특정 하천에 대해 수립하는 법정 계획으로, 하천의 현황 조사 결과와 함께 계획홍수량·계획홍수위, 제방 정비 계획 등을 담고 있다.</div>
+    </div>
+  </div>
+
+  <!-- 6. 수식 기호 -->
+  <div class="section" id="sec6">
+    <div class="section-head">
+      <span class="section-tag">6. 본문 수식 기호 설명</span>
+      <span class="section-line"></span>
+    </div>
+
+    <div class="formula">
+      <div class="formula-title">식 1. 수문곡선 변화 (Hydrograph Change)</div>
+      <div class="formula-expr">[Hydrograph change] = [Flow]<sub>Baseline</sub> − [Flow]<sub>With-project</sub></div>
+      <ul>
+        <li><strong>[Hydrograph change]</strong>: 같은 날짜·지점 기준으로 두 조건의 하루 유량을 뺀 값</li>
+        <li><strong>[Flow]<sub>Baseline</sub></strong>: 보가 그대로 있는 조건(기준 상태)에서의 하천 유량</li>
+        <li><strong>[Flow]<sub>With-project</sub></strong>: 보를 철거한 조건(사업 시행)에서의 하천 유량</li>
+      </ul>
+    </div>
+
+    <div class="formula">
+      <div class="formula-title">식 2. 두 단면 사이의 체적 (Simpson 공식)</div>
+      <div class="formula-expr">V = (h / 6) × (G₁ + 4G₂ + G₃)</div>
+      <ul>
+        <li><strong>V</strong>: 두 하천 단면 사이에 채워진 물의 체적(㎥)</li>
+        <li><strong>h</strong>: 두 하천 단면 사이의 하천 진행 방향 거리(m)</li>
+        <li><strong>G₁</strong>: 상류 쪽 단면의 단면적(㎡)</li>
+        <li><strong>G₃</strong>: 하류 쪽 단면의 단면적(㎡)</li>
+        <li><strong>G₂</strong>: 두 단면의 중간 지점 단면적(㎡) — 실무적으로 G₁과 G₃의 평균값 사용</li>
+      </ul>
+    </div>
+
+    <div class="formula">
+      <div class="formula-title">식 3. 시점별 용존산소 농도</div>
+      <div class="formula-expr">DO(t) = DO<sub>sat</sub> − D(t)</div>
+      <ul>
+        <li><strong>DO(t)</strong>: t 시점의 실제 용존산소 농도(mg/L)</li>
+        <li><strong>DO<sub>sat</sub></strong>: 포화 용존산소 농도(mg/L) — 수온·기압 조건에서의 최대 산소량</li>
+        <li><strong>D(t)</strong>: t 시점의 용존산소 결핍량(mg/L) — 포화 상태 대비 부족분</li>
+      </ul>
+    </div>
+
+    <div class="formula">
+      <div class="formula-title">식 4. 용존산소 결핍량의 시간 변화</div>
+      <ul>
+        <li><strong>k₁</strong>: 탈산소화 계수(1/day) — 유기물 분해에 의한 산소 소모 속도</li>
+        <li><strong>k<sub>a</sub></strong>: 재폭기 계수(1/day) — 대기 산소가 물에 녹아드는 보충 속도</li>
+        <li><strong>L₀</strong>: 초기(t=0) 생물학적 산소요구량, BOD 농도(mg/L)</li>
+        <li><strong>D₀</strong>: 초기(t=0) 용존산소 결핍량(mg/L)</li>
+        <li><strong>t</strong>: 유하시간(day) = 이동 거리 ÷ 평균 유속</li>
+      </ul>
+    </div>
+
+    <div class="formula">
+      <div class="formula-title">식 5. 재폭기 계수 산정</div>
+      <ul>
+        <li><strong>k<sub>a</sub></strong>: 재폭기 계수(1/day)</li>
+        <li><strong>v</strong>: 하천의 평균 유속(m/s)</li>
+        <li><strong>H</strong>: 하천의 평균 수심(m)</li>
+      </ul>
+    </div>
+
+    <div class="formula">
+      <div class="formula-title">식 6. BOD 감축 부하량</div>
+      <div class="formula-expr">ΔL<sub>BOD</sub> = ΔBOD × Q × 10⁻³</div>
+      <ul>
+        <li><strong>ΔL<sub>BOD</sub></strong>: BOD 감축 부하량(kg/day) — 보 철거로 하루 동안 줄어드는 유기물 총량</li>
+        <li><strong>ΔBOD</strong>: BOD 감소 농도(mg/L) — 보 존재 시와 철거 시의 농도 차이</li>
+        <li><strong>Q</strong>: 하천 유량(㎥/day) — 저수기 대표 유량 사용</li>
+        <li><strong>10⁻³</strong>: mg/L → kg/㎥ 단위 환산 계수</li>
+      </ul>
+    </div>
+
+    <div class="formula">
+      <div class="formula-title">식 7. 메탄 배출계수</div>
+      <div class="formula-expr">EF = B₀ × MCF</div>
+      <ul>
+        <li><strong>EF</strong>: 메탄 배출계수(kg CH₄/kg BOD)</li>
+        <li><strong>B₀</strong>: 최대 메탄 생성 잠재량(kg CH₄/kg BOD) — 완전 혐기 분해 시 이론상 최대값</li>
+        <li><strong>MCF</strong>: 메탄보정계수(0~1) — 1에 가까울수록 메탄 발생이 많은 환경</li>
+      </ul>
+    </div>
+
+    <div class="formula">
+      <div class="formula-title">식 8. 적용 메탄 배출계수 값</div>
+      <div class="formula-expr">EF = 0.6 × 0.3 = 0.18 (kg CH₄/kg BOD)</div>
+      <ul>
+        <li><strong>0.6</strong>: B₀ 값 — 생활계 유기물 분해에 대한 국제 표준값</li>
+        <li><strong>0.3</strong>: MCF 값 — 하천의 부분 산소 공급 환경(중간 수준 혐기 조건)</li>
+      </ul>
+    </div>
+
+    <div class="formula">
+      <div class="formula-title">식 9. 제방 여유고 과부족</div>
+      <div class="formula-expr">여유고 과부족 = (계획홍수위 + 여유고) − 기설 제방고</div>
+      <ul>
+        <li>결과가 <strong>음수(−)</strong>이면 → 현재 제방이 안전 기준보다 낮아 증고·보축 공사 필요</li>
+        <li>결과가 <strong>양수(+)</strong>이면 → 이미 여유가 있어 추가 공사 불필요</li>
+      </ul>
+    </div>
+  </div>
+
+
+</div>
+
+<footer>
+  <div class="source-block">
+    <p class="source-label">📄 출처</p>
+    <p class="source-text">ISSUE PAPER 2026-6호, (재)숲과나눔 풀씨행동연구소<br>『중소하천 내 불필요한 보 철거에 따른 물 환원량, 홍수위, 침수 범람, 수질 및 하상변동 영향 분석 연구』</p>
+    <p class="source-note">* 위 용어정리 및 수식 기호 설명은 본 보고서 본문에서 사용된 맥락을 기준으로 작성되었으며, 분야별 학술 정의와 세부적으로 다를 수 있습니다.</p>
+  </div>
+  <p>&copy; 건강한도림천을만드는주민모임 1999-2026 · 사회혁신교육원</p>
+</footer>
+
+<script>
+(function() {
+  var saved = localStorage.getItem('rw_theme');
+  if (saved) document.documentElement.setAttribute('data-theme', saved);
+})();
+</script>
+</body>
+</html>
