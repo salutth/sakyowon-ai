@@ -250,13 +250,17 @@
   </style>
 </head>
 <body>
-  <div class="top-bar">
-    <a href="/dashboard">← 대시보드</a>
-    <div class="score-display">
-      <span class="score" id="scoreLabel">0점</span>
-      <span class="streak" id="streakLabel"></span>
+  <nav style="position:sticky;top:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0.65rem 1.5rem;background:rgba(10,10,15,0.88);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid #222;">
+    <a href="/" style="display:flex;align-items:center;gap:0.5rem;font-weight:700;font-size:1.1rem;color:#e0e0e0;text-decoration:none;">🌊 River<span style="color:#7873f5">Watch</span></a>
+    <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
+      <a href="/" style="padding:0.3rem 0.6rem;border-radius:8px;font-size:0.75rem;color:#aaa;text-decoration:none;">홈</a>
+      <a href="dashboard" style="padding:0.3rem 0.6rem;border-radius:8px;font-size:0.75rem;color:#aaa;text-decoration:none;">대시보드</a>
+      <div class="score-display" style="display:flex;align-items:center;gap:0.5rem;">
+        <span class="score" id="scoreLabel" style="font-size:0.8rem;color:#7873f5;font-weight:700;">0점</span>
+        <span class="streak" id="streakLabel" style="font-size:0.75rem;"></span>
+      </div>
     </div>
-  </div>
+  </nav>
 
   <div class="game-area">
     <!-- Start Screen -->

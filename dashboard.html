@@ -369,17 +369,18 @@
   </style>
 </head>
 <body>
-  <header>
-    <h1><span>RiverWatch</span> 서울 하천 생태 대시보드 <span style="font-size:0.55em;background:#f39c1233;color:#f39c12;border:1px solid #f39c1255;padding:2px 8px;border-radius:12px;vertical-align:middle;margin-left:6px">Beta 시범운영</span></h1>
-    <div class="status-bar" id="statusBar">
-      <a href="/report" class="badge safe" style="text-decoration:none">🔬 제보</a>
-      <a href="/today" class="badge warning" style="text-decoration:none">📊 오늘</a>
-      <a href="/mission" class="badge danger" style="text-decoration:none">🎯 미션</a>
-      <a href="/play" class="badge" style="text-decoration:none;background:#7873f5;color:#fff">🎮 퀴즈</a>
-      <a href="javascript:void(0)" onclick="openReport()" class="badge safe" style="text-decoration:none;cursor:pointer">📑 보고서</a>
-      <span class="time-label" id="lastUpdate">로딩중...</span>
+  <nav style="position:sticky;top:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0.65rem 1.5rem;background:rgba(10,10,15,0.88);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid #222;">
+    <a href="/" style="display:flex;align-items:center;gap:0.5rem;font-weight:700;font-size:1.1rem;color:#e0e0e0;text-decoration:none;">🌊 River<span style="color:#7873f5">Watch</span></a>
+    <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
+      <a href="/" style="padding:0.3rem 0.6rem;border-radius:8px;font-size:0.75rem;color:#aaa;text-decoration:none;">홈</a>
+      <a href="analysis" style="padding:0.3rem 0.6rem;border-radius:8px;font-size:0.75rem;color:#aaa;text-decoration:none;">분석</a>
+      <a href="today" style="padding:0.3rem 0.6rem;border-radius:8px;font-size:0.75rem;color:#aaa;text-decoration:none;">오늘</a>
+      <a href="mission" style="padding:0.3rem 0.6rem;border-radius:8px;font-size:0.75rem;color:#aaa;text-decoration:none;">미션</a>
+      <a href="glossary" style="padding:0.3rem 0.6rem;border-radius:8px;font-size:0.75rem;color:#aaa;text-decoration:none;">용어</a>
+      <a href="javascript:void(0)" onclick="openReport()" style="padding:0.3rem 0.6rem;border-radius:8px;font-size:0.75rem;color:#2ecc71;text-decoration:none;cursor:pointer;">📑 보고서</a>
+      <span class="time-label" id="lastUpdate" style="font-size:0.7rem;color:#666;">로딩중...</span>
     </div>
-  </header>
+  </nav>
 
   <div id="floodAlertBanner" style="display:none;margin:0.5rem 1rem;padding:0.8rem 1.2rem;background:linear-gradient(135deg,#2a1a1a,#1a0a0a);border:1px solid #ff4444;border-radius:12px;animation:pulse 2s infinite">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
