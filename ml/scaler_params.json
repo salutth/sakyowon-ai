@@ -1,19 +1,19 @@
 {
   "water_level": {
-    "min": 4.21,
-    "max": 37.98
+    "min": 4.7,
+    "max": 34.08
   },
   "level_ratio": {
-    "min": 19.6,
-    "max": 95
+    "min": 21.9,
+    "max": 88.8
   },
   "rain_probability": {
     "min": 0.0,
-    "max": 0.0
+    "max": 82
   },
   "rain_amount": {
     "min": 0.0,
-    "max": 0.0
+    "max": 0.1
   },
   "hour_sin": {
     "min": -1.0,
